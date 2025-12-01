@@ -7,6 +7,11 @@
     --font-main: 'Tajawal', sans-serif;
 }
 
+/* Increase base font size to scale text larger across the site */
+html {
+    font-size: 18px;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -76,7 +81,8 @@ body {
     align-items: center; /* vertically center the profile card */
     /* make the hero occupy most of the viewport so its content is centered vertically
        subtract an approximate navbar height so the card sits below the sticky navbar */
-    min-height: calc(100vh - 80px);
+    /* slightly reduce overall hero height so the blue card appears smaller */
+    min-height: calc(85vh - 80px);
 }
 
 /* Ensure the direct child inside the hero's container is centered horizontally.
@@ -94,6 +100,12 @@ body {
     overflow: hidden;
     width: 100%;
     max-width: 800px;
+}
+
+/* Make the profile card a column so header stays on top and blue body can center/distribute text */
+.profile-card {
+    display: flex;
+    flex-direction: column;
 }
 
 /* Card Header */
@@ -126,9 +138,15 @@ body {
     flex: 2 1 300px;
 }
 
+/* Make profile text a bit smaller to fit the layout better */
+.profile-info {
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
 .candidate-name {
     color: var(--accent-green);
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: 800;
     margin-bottom: 0.5rem;
 }
@@ -147,7 +165,7 @@ body {
 }
 
 .titles-list li {
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin-bottom: 0.8rem;
     color: var(--primary-blue);
     font-weight: 600;
@@ -167,11 +185,43 @@ body {
     z-index: 1;
 }
 
+/* Distribute the paragraph content to better 'fill' the blue shape */
+.card-body-blue {
+    display: flex;
+    flex-direction: column;
+    /* reduce vertical padding so the blue shape is smaller */
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    /* align horizontal padding with the card header so text starts at the same edge */
+    padding-inline: 2rem;
+}
+
 .card-body-blue p {
-    margin-bottom: 1rem;
-    font-size: 1.05rem;
+    margin: 0;
+    /* smaller responsive font so text fits the reduced blue shape */
+    font-size: clamp(0.98rem, 1.6vw, 1.08rem);
+    line-height: 1.5;
     text-align: justify;
     opacity: 0.95;
+    flex: 1 1 auto; /* allow paragraphs to grow and share available vertical space */
+}
+
+/* On smaller screens keep previous centered flow and normal spacing */
+@media (max-width: 900px) {
+    .card-body-blue {
+        justify-content: center;
+        padding-top: 0.6rem;
+        padding-bottom: 0.6rem;
+        padding-inline: 1rem;
+    }
+    .card-body-blue p {
+        margin-bottom: 0.75rem;
+        flex: none;
+        /* mobile-friendly smaller size */
+        font-size: clamp(0.95rem, 3.2vw, 1.02rem);
+    }
 }
 
 .highlight-text {
@@ -182,6 +232,11 @@ body {
 /* Generic Section Styles */
 .section {
     padding: 4rem 0;
+}
+
+.section p {
+    font-size: clamp(1rem, 1.6vw, 1.12rem);
+    line-height: 1.55;
 }
 
 .section-title {
@@ -222,6 +277,12 @@ body {
 
 .campaign-card:hover {
     transform: translateY(-5px);
+}
+
+.campaign-card p {
+    /* make campaign card paragraphs a bit larger and responsive */
+    font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+    line-height: 1.55;
 }
 
 /* Reveal animation using CSS classes (avoid inline transform which blocks :hover rules) */
@@ -317,12 +378,57 @@ footer {
         justify-content: center;
     }
     
+    /* Keep nav links visible on mobile, show them horizontally beside the logo */
     .nav-links {
-        display: none; /* يمكن إضافة زر همبرغر لاحقاً */
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+        margin-top: 0;
+        flex-wrap: wrap;
+    }
+
+    .nav-links a {
+        font-size: 0.95rem;
+        padding: 6px 8px;
     }
     
     .logo {
         margin: 0 auto;
+    }
+}
+
+/* Mobile: logo above, navigation below (nav items arranged horizontally) */
+@media (max-width: 768px) {
+    .navbar .container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+    }
+    .navbar .logo {
+        order: 1;
+        margin-bottom: 0.25rem;
+    }
+    .nav-links {
+        order: 2;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .nav-links a {
+        padding: 6px 10px;
+    }
+}
+
+/* Reduce icon sizes on small screens so campaign icons don't dominate the card */
+@media (max-width: 768px) {
+    .icon-box {
+        font-size: 1.6rem;
+        margin-bottom: 0.6rem;
     }
 }
 
@@ -332,6 +438,21 @@ footer {
         min-height: auto;
         padding: 2rem 0;
         align-items: flex-start; /* let the card flow naturally on small screens */
+    }
+}
+
+/* Fix: keep navbar visible on small screens (mobile browsers can treat sticky inconsistently) */
+@media (max-width: 768px) {
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 2000;
+    }
+    /* add top padding so page content isn't hidden under the fixed navbar */
+    body {
+        padding-top: 72px; /* approximate navbar height (adjust if needed) */
     }
 }
 
@@ -347,4 +468,44 @@ footer {
         margin-top: 0;
         padding-top: 2rem;
     }
+}
+
+/* Very small screens: make nav horizontally scrollable and compact */
+@media (max-width: 420px) {
+    .nav-links {
+        gap: 8px;
+        padding: 6px 4px;
+        font-size: 0.92rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+        justify-content: flex-start;
+    }
+    .nav-links a {
+        flex: 0 0 auto;
+        padding: 6px 10px;
+    }
+    .nav-links::-webkit-scrollbar {
+        height: 6px;
+    }
+    .nav-links::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.12);
+        border-radius: 4px;
+    }
+    .navbar .container {
+        padding-inline: 10px;
+    }
+}
+
+/* Active nav link color when its section is in view */
+.nav-links a.active {
+    color: var(--accent-green);
+}
+.nav-links a.active .icon-box {
+    color: var(--accent-green);
+}
+
+/* small ease for switching active state */
+.nav-links a {
+    transition: color 160ms ease;
 }

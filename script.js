@@ -72,4 +72,49 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const links = document.querySelectorAll('a[href="#campaign"], a[href="#video"]');
     links.forEach(l => l.addEventListener('click', handler));
+
+    // --- Scrollspy: highlight nav links when their section is in view ---
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+
+    // Map links to their target sections (ignore links without matching sections)
+    const sections = Array.from(navLinks).map(a => {
+        const id = a.getAttribute('href').slice(1);
+        return document.getElementById(id) || null;
+    }).filter(Boolean);
+
+    if (sections.length) {
+        const spyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.id;
+                const link = document.querySelector(`.nav-links a[href="#${id}"]`);
+                if (!link) return;
+
+                if (entry.isIntersecting) {
+                    // remove active from all then set the current one
+                    navLinks.forEach(a => a.classList.remove('active'));
+                    link.classList.add('active');
+                } else {
+                    // if leaving the viewport, remove the active class
+                    // (we keep the simple behavior where intersection adds it)
+                    link.classList.remove('active');
+                }
+            });
+        }, { threshold: 0.55 });
+
+        sections.forEach(s => spyObserver.observe(s));
+
+        // Ensure initial active state on load/refresh
+        window.addEventListener('load', () => {
+            sections.forEach(sec => {
+                const rect = sec.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.55 && rect.bottom > window.innerHeight * 0.2) {
+                    const link = document.querySelector(`.nav-links a[href="#${sec.id}"]`);
+                    if (link) {
+                        navLinks.forEach(a => a.classList.remove('active'));
+                        link.classList.add('active');
+                    }
+                }
+            });
+        });
+    }
 });
