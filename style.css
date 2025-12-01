@@ -1,0 +1,350 @@
+:root {
+    --primary-blue: #223a70; /* اللون الأزرق الغامق من الخلفية */
+    --accent-green: #7ab800; /* اللون الأخضر من الاسم */
+    --light-bg: #f4f4f4;
+    --text-dark: #333;
+    --text-light: #fff;
+    --font-main: 'Tajawal', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Navbar */
+.navbar {
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 1rem 0;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--accent-green);
+}
+
+/* Hero Section (The Card) */
+.hero-section {
+    padding: 3rem 0;
+    display: flex; /* use valid flex container */
+    justify-content: center;
+    align-items: center; /* vertically center the profile card */
+    /* make the hero occupy most of the viewport so its content is centered vertically
+       subtract an approximate navbar height so the card sits below the sticky navbar */
+    min-height: calc(100vh - 80px);
+}
+
+/* Ensure the direct child inside the hero's container is centered horizontally.
+   This keeps the navbar's `.container` flex rules untouched. */
+.hero-section .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    overflow: hidden;
+    width: 100%;
+    max-width: 800px;
+}
+
+/* Card Header */
+.card-header {
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.profile-image-container {
+    flex: 1 1 200px;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-pic {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px; /* حواف ناعمة مثل الصورة */
+    object-fit: cover;
+    /* show the upper half of tall/portrait images (crop from the top) */
+    object-position: center top;
+    border: 3px solid var(--primary-blue); /* الإطار الأزرق حول الصورة */
+    border-left: 3px solid var(--accent-green); /* لمسة خضراء */
+}
+
+.profile-info {
+    flex: 2 1 300px;
+}
+
+.candidate-name {
+    color: var(--accent-green);
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.green-divider {
+    height: 4px;
+    width: 100px;
+    background-color: #ccc; /* رمادي فاتح ثم أخضر فوقه */
+    background: linear-gradient(to left, var(--accent-green) 50%, #ddd 50%);
+    margin-bottom: 1.5rem;
+    border-radius: 2px;
+}
+
+.titles-list {
+    list-style: none;
+}
+
+.titles-list li {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    color: var(--primary-blue);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Card Body Blue Section */
+.card-body-blue {
+    background-color: var(--primary-blue);
+    color: #fff;
+    padding: 2.5rem;
+    border-radius: 30px 30px 0 0; /* تقويس الجزء العلوي ليشبه التصميم */
+    margin-top: -20px; /* سحب للأعلى قليلاً */
+    position: relative;
+    z-index: 1;
+}
+
+.card-body-blue p {
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+    text-align: justify;
+    opacity: 0.95;
+}
+
+.highlight-text {
+    font-weight: 700;
+    color: var(--accent-green);
+}
+
+/* Generic Section Styles */
+.section {
+    padding: 4rem 0;
+}
+
+.section-title {
+    text-align: center;
+    color: var(--primary-blue);
+    font-size: 2rem;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--accent-green);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* Campaign Grid */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    justify-items: center; /* center items inside each grid cell */
+}
+
+.campaign-card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    text-align: center;
+    transition: transform 0.3s;
+    border-top: 4px solid var(--accent-green);
+}
+
+.campaign-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Reveal animation using CSS classes (avoid inline transform which blocks :hover rules) */
+.reveal-hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.icon-box {
+    font-size: 2.5rem;
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+}
+
+.campaign-card h3 {
+    margin-bottom: 1rem;
+    color: var(--primary-blue);
+}
+
+/* Hover effect for visible cards (applies to both campaign and profile cards)
+   Placed after reveal rules so it wins in the cascade when elements have reveal classes. */
+.reveal-visible:hover,
+.campaign-card:hover,
+.profile-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+}
+
+/* Video Section */
+.video-section {
+    background-color: #e9ecef;
+}
+
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Footer */
+footer {
+    background: var(--primary-blue);
+    color: #fff;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.social-icons {
+    margin-top: 1rem;
+}
+
+.social-icons a {
+    color: #fff;
+    font-size: 1.2rem;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: var(--accent-green);
+}
+
+/* Responsive Edits */
+@media (max-width: 768px) {
+    .card-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .green-divider {
+        margin: 0.5rem auto 1.5rem auto;
+    }
+    
+    .titles-list li {
+        justify-content: center;
+    }
+    
+    .nav-links {
+        display: none; /* يمكن إضافة زر همبرغر لاحقاً */
+    }
+    
+    .logo {
+        margin: 0 auto;
+    }
+}
+
+/* On narrow screens, avoid forcing large min-height which can push content off-screen */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: auto;
+        padding: 2rem 0;
+        align-items: flex-start; /* let the card flow naturally on small screens */
+    }
+}
+
+/* Reduce the visual gap between the hero and the following #why section.
+   Use a small negative margin on wide screens, but keep default flow on mobile. */
+#why {
+    margin-top: -40px;
+    padding-top: 2rem; /* keep inner spacing for the section content */
+}
+
+@media (max-width: 768px) {
+    #why {
+        margin-top: 0;
+        padding-top: 2rem;
+    }
+}
