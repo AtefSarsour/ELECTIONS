@@ -509,3 +509,124 @@ footer {
 .nav-links a {
     transition: color 160ms ease;
 }
+
+/* Portfolio cards styling */
+.portfolio-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    text-align: center;
+    padding: 0.8rem;
+}
+.portfolio-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+}
+.portfolio-card h3 {
+    margin: 0.25rem 0 0.5rem 0;
+    color: var(--primary-blue);
+    font-size: 1.05rem;
+}
+.portfolio-card p {
+    font-size: 0.95rem;
+    color: #444;
+}
+
+@media (max-width: 420px) {
+    .portfolio-card img {
+        height: 120px;
+    }
+}
+
+/* Image slider styles */
+.image-slider {
+    max-width: 960px;
+    margin: 1.5rem auto 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+.slider-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    /* force LTR layout inside the slider so left/right arrows behave visually as expected */
+    direction: ltr;
+}
+
+.slider-track-wrapper {
+    overflow: hidden;
+    width: 100%;
+    flex: 1 1 auto;
+}
+.slider-track {
+    display: flex;
+    transition: transform 420ms cubic-bezier(.22,.9,.36,1);
+    will-change: transform;
+    flex-wrap: nowrap;
+}
+.slide {
+    min-width: 100%;
+    flex: 0 0 100%;
+    padding: 0; /* avoid extra padding that breaks pixel widths */
+    box-sizing: border-box;
+}
+.slide img {
+    width: 100%;
+    height: auto; /* let image determine its height so it's fully visible */
+    object-fit: contain; /* show full image without cropping */
+    border-radius: 10px;
+    display: block;
+}
+.slider-btn {
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(0,0,0,0.06);
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--primary-blue);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+.slider-btn:active { transform: scale(0.98); }
+.slider-btn.prev { order: 0; }
+.slider-btn.next { order: 2; }
+.slider-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 0.6rem;
+    width: 100%;
+}
+.slider-dots {
+    /* ensure dots order is left-to-right so indexing matches slide order
+       even when the page is RTL */
+    direction: ltr;
+}
+.slider-dots button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.12);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+.slider-dots button.active {
+    background: var(--accent-green);
+}
+
+@media (max-width: 768px) {
+    .slider-btn { padding: 7px 9px; }
+}
+
+@media (max-width: 420px) {
+    .slider-btn { padding: 6px 8px; font-size: 0.9rem; }
+}

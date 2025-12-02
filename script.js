@@ -117,4 +117,85 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
+
+    // --- Simple looping image slider for portfolio ---
+    const sliders = document.querySelectorAll('.image-slider');
+    sliders.forEach(slider => {
+        const track = slider.querySelector('.slider-track');
+        const slides = Array.from(slider.querySelectorAll('.slide'));
+        const prevBtn = slider.querySelector('.slider-btn.prev');
+        const nextBtn = slider.querySelector('.slider-btn.next');
+        const dotsContainer = slider.querySelector('.slider-dots');
+        const wrapper = slider.querySelector('.slider-track-wrapper');
+        if (!track || slides.length === 0 || !wrapper) return;
+
+        let index = 0;
+
+        // create dots
+        slides.forEach((s, i) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.setAttribute('aria-label', `انتقال إلى الشريحة ${i+1}`);
+            if (i === 0) btn.classList.add('active');
+            btn.addEventListener('click', () => {
+                goTo(i);
+            });
+            dotsContainer.appendChild(btn);
+        });
+
+        const dots = Array.from(dotsContainer.children);
+
+        function setSlideWidths() {
+            const w = wrapper.clientWidth;
+            slides.forEach(s => {
+                s.style.minWidth = w + 'px';
+                s.style.maxWidth = w + 'px';
+            });
+            // ensure track doesn't keep inline transform issues
+            track.style.willChange = 'transform';
+            // explicitly set track width to avoid layout rounding issues
+            track.style.width = (w * slides.length) + 'px';
+        }
+
+        function update() {
+            const w = wrapper.clientWidth;
+            // use translate3d for better GPU compositing
+            track.style.transform = `translate3d(${ -index * w }px, 0, 0)`;
+            dots.forEach((d, i) => d.classList.toggle('active', i === index));
+        }
+
+        function goTo(i) {
+            const count = slides.length;
+            index = ((i % count) + count) % count;
+            update();
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', () => goTo(index - 1));
+        if (nextBtn) nextBtn.addEventListener('click', () => goTo(index + 1));
+
+        // allow swipe on touch devices
+        let startX = null;
+        if (wrapper) {
+            wrapper.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+            wrapper.addEventListener('touchend', (e) => {
+                if (startX === null) return;
+                const endX = e.changedTouches[0].clientX;
+                const dx = endX - startX;
+                if (Math.abs(dx) > 30) {
+                    if (dx < 0) goTo(index + 1); else goTo(index - 1);
+                }
+                startX = null;
+            });
+        }
+
+        // set widths initially and keep slider sizing correct on resize
+        setSlideWidths();
+        window.addEventListener('resize', () => {
+            setSlideWidths();
+            update();
+        });
+
+        // initial paint
+        update();
+    });
 });
