@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function () {
     // إضافة حركة ظهور للعناصر عند التمرير
     const observer = new IntersectionObserver((entries) => {
@@ -70,7 +69,8 @@ document.addEventListener('DOMContentLoaded', function () {
         showToast(message);
     }
 
-    const links = document.querySelectorAll('a[href="#campaign"], a[href="#video"]');
+    // تم التعديل: تطبيق الـ handler فقط على #video لأن #campaign أصبح مرئياً الآن
+    const links = document.querySelectorAll('a[href="#video"]');
     links.forEach(l => l.addEventListener('click', handler));
 
     // --- Scrollspy: highlight nav links when their section is in view ---

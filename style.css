@@ -630,3 +630,23 @@ footer {
 @media (max-width: 420px) {
     .slider-btn { padding: 6px 8px; font-size: 0.9rem; }
 }
+
+/* --- New Styles for Goals Section --- */
+
+/* Styling for the new campaign goals section */
+.campaign-section .section-title {
+    color: var(--primary-blue);
+}
+
+/* Make goal icons green for distinction, matching the design aesthetic */
+.goal-item .icon-box {
+    color: var(--accent-green);
+}
+
+/* On wider screens, force the grid to have 3 columns to better accommodate 6 items */
+@media (min-width: 1000px) {
+    .goals-grid.cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    /* تم حذف قاعدة large-goal لكي يظهر العنصر الخامس والسادس بجانب الباقي */
+}
