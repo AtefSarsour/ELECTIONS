@@ -69,7 +69,8 @@ document.addEventListener('DOMContentLoaded', function () {
         showToast(message);
     }
 
-    // تم التعديل: تطبيق الـ handler فقط على #video لأن #campaign أصبح مرئياً الآن
+    // تم التعديل: تطبيق الـ handler الآن على #video فقط
+    // مما يسمح لرابط #campaign بالعمل بشكل طبيعي والتمرير إلى القسم.
     const links = document.querySelectorAll('a[href="#video"]');
     links.forEach(l => l.addEventListener('click', handler));
 
